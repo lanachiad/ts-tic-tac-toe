@@ -36,7 +36,7 @@ function Login() {
       <h2>Login with your email to play</h2>
       <form onSubmit={handleSubmit}>
         <input
-          type="text"
+          type="email"
           placeholder="Enter your email"
           name="email"
           required
