@@ -21,6 +21,7 @@ function Login() {
         if (res.data.success) {
           // store token in user session storage
           sessionStorage.setItem("token", res.data.token);
+          // TODO: add timestamp that we can check after X amount of time to "validate" token
           window.location.reload();
         }
       })
