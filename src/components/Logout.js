@@ -1,4 +1,5 @@
 import React from 'react';
+import "../styles/Logout.css";
 
 function Logout() {
     const clearSession = () => {
@@ -7,7 +8,7 @@ function Logout() {
     }
 
     return(
-        <button type="submit" onClick={clearSession}>Logout</button>
+        <button className="logout_btn" type="submit" onClick={clearSession}>Logout</button>
     )
 }
 
