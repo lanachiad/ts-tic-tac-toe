@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Loading from "./Loading";
 
 function Login() {
   const [errMsg, setErrMsg] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
     submitEmail(e.target[0].value);
   };
 
@@ -22,7 +25,10 @@ function Login() {
           // store token in user session storage
           sessionStorage.setItem("token", res.data.token);
           // TODO: add timestamp that we can check after X amount of time to "validate" token
-          window.location.reload();
+          setTimeout(() => {
+            setLoading(false);
+            window.location.reload();
+          }, "1000");
         }
       })
       .catch((err) => {
@@ -34,6 +40,7 @@ function Login() {
 
   return (
     <div className="Login">
+      {loading ? <Loading /> : null}
       <h2>Login with your email to play</h2>
       <form onSubmit={handleSubmit}>
         <input
