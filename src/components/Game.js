@@ -22,7 +22,12 @@ function Game() {
   };
 
   const [currentBoard, setCurrentBoard] = useState(initialBoard);
-  const [turn, setTurn] = useState("Your");
+  const [turn, setTurn] = useState("Your turn");
+  const [winner, setWinner] = useState("");
+
+  const resetGame = (e) => {
+    setCurrentBoard(initialBoard);
+  }
 
   const handleSquareClick = (e) => {
     if (e.currentTarget.innerText === "O") {
@@ -34,11 +39,12 @@ function Game() {
     const index = e.currentTarget.id;
     e.currentTarget.innerText = "X";
     updateBoard(row, index);
-    setTurn("AI's");
+    setTurn("AIs turn");
   };
 
   const updateBoard = (row, index) => {
     currentBoard.board[row][index] = "X";
+    gameLoop(currentBoard.board);
     sendBoard(currentBoard);
   };
 
@@ -60,69 +66,75 @@ function Game() {
       .then((res) => {
         setTimeout(() => {
           setCurrentBoard(res.data);
-          setTurn("Your");
+          setTurn("Your turn");
         }, "1000");
+        gameLoop(currentBoard.board);
       })
       .catch((err) => {
         console.log("ERR: ", err);
-      })
-      .finally(() => {
-        gameLoop(currentBoard);
       });
   };
 
   const gameLoop = (board) => {
-    // check if win conditions are met
-    console.log("BOARD.BOARD: ", board.board);
+    // check for draw
 
-    // TODO: This is insane lol
-    // User's win conditions
-    if ((board.board[0][0] && board.board[1][1] && board.board[2][2]) === "X") {
-      console.log("USER diagnoal win!!!!");
-    } else if (
-      (board.board[0][2] && board.board[1][1] && board.board[2][0]) === "X"
-    ) {
-      console.log("USER other diagonal win!!!!!");
-    } else if (
-      (board.board[0][0] && board.board[0][1] && board.board[0][2]) === "X"
-    ) {
-      console.log("USER top row win!!!!");
-    } else if (
-      (board.board[1][0] && board.board[1][1] && board.board[1][2]) === "X"
-    ) {
-      console.log("USER middle row win!!!!");
-    } else if (
-      (board.board[2][0] && board.board[2][1] && board.board[2][2]) === "X"
-    ) {
-      console.log("USER bottom row win!!!!");
+    if (board.includes("")) {
+      setWinner("DRAW");
     }
 
-    // AI's win conditions
-    if ((board.board[0][0] && board.board[1][1] && board.board[2][2]) === "O") {
-      console.log("AI diagnoal win!!!!");
-    } else if (
-      (board.board[0][2] && board.board[1][1] && board.board[2][0]) === "O"
-    ) {
-      console.log("AI other diagonal win!!!!!");
-    } else if (
-      (board.board[0][0] && board.board[0][1] && board.board[0][2]) === "O"
-    ) {
-      console.log("AI top row win!!!!");
-    } else if (
-      (board.board[1][0] && board.board[1][1] && board.board[1][2]) === "O"
-    ) {
-      console.log("AI middle row win!!!!");
-    } else if (
-      (board.board[2][0] && board.board[2][1] && board.board[2][2]) === "O"
-    ) {
-      console.log("AI bottom row win!!!!");
+    // loop through rows
+    for (let i = 0; i < board.length; i++) {
+      // horizontal wins
+      if (board[i][0] === board[i][1]) {
+        if (board[i][1] === board[i][2]) {
+          if (board[i][0] === "X") {
+            setWinner("USER WINS -- HOR");
+          } else if (board[i][0] === "O") {
+            setWinner("AI WINS -- HOR");
+          }
+        }
+      }
+
+      // vertical wins
+      if (board[0][i] === board[1][i]) {
+        if (board[1][i] === board[2][i]) {
+          if (board[0][i] === "X") {
+            setWinner("USER WINS - VERT");
+          } else if (board[0][i] === "O") {
+            setWinner("AI WINS - VERT");
+          }
+        }
+      }
+
+      // diagonal l2r wins
+      if (board[0][0] === board[1][1]) {
+        if (board[1][1] === board[2][2]) {
+          if (board[0][0] === "X") {
+            setWinner("USER WINS DIAG L2R");
+          } else if (board[0][0] === "O") {
+            setWinner("AI WINS -- DIAG L2R");
+          }
+        }
+      }
+
+      // diagonal r2l wins
+      if (board[0][2] === board[1][1]) {
+        if (board[1][1] === board[2][0]) {
+          if (board[0][2] === "X") {
+            setWinner("USER WINS DIAG R2L");
+          } else if (board[0][2] === "O") {
+            setWinner("AI WINS -- DIAG R2L");
+          }
+        }
+      }
     }
   };
 
   return (
     <>
-      {turn !== "Your" ? <Loading /> : null}
-      <h2>{turn} turn</h2>
+      {turn !== "Your turn" ? <Loading /> : null}
+      {winner !== "" ? <h2 className="game_winner">{winner}</h2> : null}
+      <h2>{turn}</h2>
       <div className="board">
         {currentBoard.board.map((row, rowI) => (
           <div className="game_row" id={rowI} key={rowI}>
@@ -139,6 +151,7 @@ function Game() {
           </div>
         ))}
       </div>
+      <button className="game_reset" onClick={resetGame}>Reset Game</button>
       <Logout />
     </>
   );
