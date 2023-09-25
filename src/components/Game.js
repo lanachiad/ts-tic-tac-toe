@@ -5,8 +5,8 @@ import axios from "axios";
 import "../styles/Game.css";
 
 function Game() {
-  // if token is missing, reload page to return to Login
   useEffect(() => {
+    // if token is missing, reload page to return to Login
     if (sessionStorage.getItem("token") === null) {
       sessionStorage.clear();
       window.location.reload();
@@ -48,13 +48,15 @@ function Game() {
     const index = e.currentTarget.id;
     e.currentTarget.innerText = "X";
     updateBoard(row, index);
+    gameLoop(currentBoard.board);
     setTurn("AIs turn");
+    if (winner.length === 0) {
+      sendBoard(currentBoard);
+    }
   };
 
   const updateBoard = (row, index) => {
     currentBoard.board[row][index] = "X";
-    gameLoop(currentBoard.board);
-    sendBoard(currentBoard);
   };
 
   const disableButton = (button) => {
@@ -76,25 +78,41 @@ function Game() {
         setTimeout(() => {
           setCurrentBoard(res.data);
           setTurn("Your turn");
+          gameLoop(res.data.board);
         }, "1000");
-        gameLoop(currentBoard.board);
       })
       .catch((err) => {
         if (err.code === "ERR_BAD_RESPONSE") {
           setErrMsg("Something went wrong. Please try again!");
         }
+      })
+      .finally(() => {
+        gameLoop(currentBoard.board);
       });
+  };
+
+  const checkForDraw = (board) => {
+    let flattenedArr = [];
+
+    // loop row
+    for (let i = 0; i < board?.length; i++) {
+      // loop index
+      for (let j = 0; j < board?.length; j++) {
+        flattenedArr.push(board[i][j]);
+      }
+    }
+
+    if (!flattenedArr.includes("")) {
+      setWinner("DRAW");
+    }
   };
 
   const gameLoop = (board) => {
     // check for draw
-    // TODO: Make this work
-    if (board.includes("")) {
-      setWinner("DRAW");
-    }
+    checkForDraw(board);
 
     // loop through rows
-    for (let i = 0; i < board.length; i++) {
+    for (let i = 0; i < board?.length; i++) {
       // horizontal wins
       if (board[i][0] === board[i][1]) {
         if (board[i][1] === board[i][2]) {
@@ -148,12 +166,8 @@ function Game() {
       {errMsg.length > 0 ? <p className="game_err">{errMsg}</p> : null}
       <h2>{turn}</h2>
       <div className="board">
-        {winner.length > 0 ? (
-          <>
-            <p className="game_err">{errMsg}</p>
-            <div className="game_over"></div>
-          </>
-        ) : null}
+        {winner !== "" ? <div className="game_over"></div> : null}
+
         {currentBoard.board.map((row, rowI) => (
           <div className="game_row" id={rowI} key={rowI}>
             {row.map((val, valI) => (
@@ -169,6 +183,7 @@ function Game() {
           </div>
         ))}
       </div>
+
       <button className="game_reset" onClick={resetGame}>
         Reset Game
       </button>

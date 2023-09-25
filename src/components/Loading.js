@@ -5,7 +5,7 @@ import "../styles/Loading.css";
 function Loading() {
     return(
         <div className="loading_container">
-            <img alt="The robots are thinking - loading" src={loading} />
+            <img alt="Loading! The Robots are thinking!" src={loading} />
         </div>
     )
 }
