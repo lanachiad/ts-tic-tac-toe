@@ -26,11 +26,12 @@ function Game() {
   const [winner, setWinner] = useState("");
   const [errMsg, setErrMsg] = useState("");
 
-  const resetGame = (e) => {
+  const resetGame = () => {
     setCurrentBoard(initialBoard);
     setTurn("Your turn");
     setWinner("");
     setErrMsg("");
+
     const allSquares = document.getElementsByClassName("game_square");
     for (let i = 0; i < allSquares.length; i++) {
       allSquares[i].removeAttribute("disabled");
