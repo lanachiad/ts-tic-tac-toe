@@ -28,7 +28,7 @@ function Game() {
 
   const resetGame = (e) => {
     setCurrentBoard(initialBoard);
-  }
+  };
 
   const handleSquareClick = (e) => {
     if (e.currentTarget.innerText === "O") {
@@ -80,7 +80,7 @@ function Game() {
 
   const gameLoop = (board) => {
     // check for draw
-
+    // TODO: Make this work
     if (board.includes("")) {
       setWinner("DRAW");
     }
@@ -90,10 +90,10 @@ function Game() {
       // horizontal wins
       if (board[i][0] === board[i][1]) {
         if (board[i][1] === board[i][2]) {
-          if (board[i][0] === "X") {
-            setWinner("USER WINS -- HOR");
-          } else if (board[i][0] === "O") {
-            setWinner("AI WINS -- HOR");
+          if (board[i][0] === "O") {
+            setWinner("AI WINS");
+          } else if (board[i][0] === "X") {
+            setWinner("USER WINS");
           }
         }
       }
@@ -101,10 +101,10 @@ function Game() {
       // vertical wins
       if (board[0][i] === board[1][i]) {
         if (board[1][i] === board[2][i]) {
-          if (board[0][i] === "X") {
-            setWinner("USER WINS - VERT");
-          } else if (board[0][i] === "O") {
-            setWinner("AI WINS - VERT");
+          if (board[0][i] === "O") {
+            setWinner("AI WINS");
+          } else if (board[0][i] === "X") {
+            setWinner("USER WINS");
           }
         }
       }
@@ -112,10 +112,10 @@ function Game() {
       // diagonal l2r wins
       if (board[0][0] === board[1][1]) {
         if (board[1][1] === board[2][2]) {
-          if (board[0][0] === "X") {
-            setWinner("USER WINS DIAG L2R");
-          } else if (board[0][0] === "O") {
-            setWinner("AI WINS -- DIAG L2R");
+          if (board[0][0] === "O") {
+            setWinner("AI WINS");
+          } else if (board[0][0] === "X") {
+            setWinner("USER WINS");
           }
         }
       }
@@ -123,10 +123,10 @@ function Game() {
       // diagonal r2l wins
       if (board[0][2] === board[1][1]) {
         if (board[1][1] === board[2][0]) {
-          if (board[0][2] === "X") {
-            setWinner("USER WINS DIAG R2L");
-          } else if (board[0][2] === "O") {
-            setWinner("AI WINS -- DIAG R2L");
+          if (board[0][2] === "O") {
+            setWinner("AI WINS");
+          } else if (board[0][2] === "X") {
+            setWinner("USER WINS");
           }
         }
       }
@@ -155,7 +155,9 @@ function Game() {
           </div>
         ))}
       </div>
-      <button className="game_reset" onClick={resetGame}>Reset Game</button>
+      <button className="game_reset" onClick={resetGame}>
+        Reset Game
+      </button>
       <Logout />
     </>
   );
