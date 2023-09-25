@@ -1,70 +1,26 @@
-# Getting Started with Create React App
-
+# Tic Tac Toe Challenge
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
 
-In the project directory, you can run:
+## How To Run
+`yarn install`
+- Install node dependencies, including `axios`.
 
-### `npm start`
+`yarn run`
+- Run the program locally in your preferred browser at `http://localhost:3000/`.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Approach
+This project was broken down to two major criteria: Login and Game. 
 
-### `npm test`
+The Login portion handle email validation from a HTML usability level, ensuring only emails can be submitted in the Login screen. Email validation can be handled by ensuring an `@` symbol requirement. Upon API success, the response token is stored in the session storage. 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+A validation handler I would've liked to implement was to also include a timestamp of when the token is created and have a validation "timer" so to ensure the token is valid only for X amount of time. In its current state, the login validation persists until the user logs out. 
 
-### `npm run build`
+The Game portion handles the array of arrays of which our board is comprised (and the data format that is consumed by the Game API). The board is made up of buttons that represent each square of the tic-tac-toe board. Upon user input and AI response, the button values update to reflect the current state of the game. 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+I ran out of time solidifying the game logic that lives in the game component. In retrospect, I could've pulled that logic out into a separate Game Logic file that runs game validations and returns a `true` or `false` boolean response to the Game component. Regardless, there is an async issue with the game response and validation -- I think leveraging `useEffect()` here would help catch the Draw state before thrown back through the Game API and thus resulting in a React error. The Draw check would be done before any other game validation is done so to stop the game from continuing (and well before we send data to the Game API again).
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+I also ran out of time implementing the hover state where hovering over a cell would highlight the row and column that cell belonged to. The way I could think of implementing this would be to target the value/Ids of each cell and add a CSS class that would bold the buttons above, around, and below any particular cell in the hover state. So each row has a row ID identified as the parent node, and each cell above and below that cell ID would have that CSS class added and removed (toggled) on hover.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Thank you for the opportunity to work on this challenge! It was really fun and was a great refresher in algorithms! :) 
