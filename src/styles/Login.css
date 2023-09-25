@@ -1,4 +1,8 @@
-.logout_btn {
+.Login form input {
+    padding: 10px 30px;
+}
+
+.Login form button {
     background-color: #8f24d4;
     border-radius: 5px;
     color: #fff;

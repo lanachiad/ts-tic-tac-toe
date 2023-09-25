@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Loading from "./Loading";
+import "../styles/Login.css";
 
 function Login() {
   const [errMsg, setErrMsg] = useState("");
