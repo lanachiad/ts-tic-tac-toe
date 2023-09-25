@@ -3,10 +3,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 
 ## How To Run
-`yarn install`
+`npm install`
 - Install node dependencies, including `axios`.
 
-`yarn run`
+`npm run`
 - Run the program locally in your preferred browser at `http://localhost:3000/`.
 
 
@@ -22,5 +22,7 @@ The Game portion handles the array of arrays of which our board is comprised (an
 I ran out of time solidifying the game logic that lives in the game component. In retrospect, I could've pulled that logic out into a separate Game Logic file that runs game validations and returns a `true` or `false` boolean response to the Game component. Regardless, there is an async issue with the game response and validation -- I think leveraging `useEffect()` here would help catch the Draw state before thrown back through the Game API and thus resulting in a React error. The Draw check would be done before any other game validation is done so to stop the game from continuing (and well before we send data to the Game API again).
 
 I also ran out of time implementing the hover state where hovering over a cell would highlight the row and column that cell belonged to. The way I could think of implementing this would be to target the value/Ids of each cell and add a CSS class that would bold the buttons above, around, and below any particular cell in the hover state. So each row has a row ID identified as the parent node, and each cell above and below that cell ID would have that CSS class added and removed (toggled) on hover.
+
+Ideally in production release, the game logic should be scalable to allow for even larger tic-tac-toe boards (e.g. 5x5). The game logic is very much coded for the purpose of this 3x3 board, which isn't ideal for future scability and architecture. 
 
 Thank you for the opportunity to work on this challenge! It was really fun and was a great refresher in algorithms! :) 
