@@ -1,7 +1,16 @@
 .game_winner {
     color: dodgerblue;
-    font-size: 18px;
+    font-size: 20px;
+    font-style: italic;
     font-weight: bold;
+    text-align: center;
+}
+
+.game_err {
+    color: red;
+    font-size: 14px;
+    font-style: italic;
+    text-align: center;
 }
 
 .game_square {

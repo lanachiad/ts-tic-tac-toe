@@ -24,6 +24,7 @@ function Game() {
   const [currentBoard, setCurrentBoard] = useState(initialBoard);
   const [turn, setTurn] = useState("Your turn");
   const [winner, setWinner] = useState("");
+  const [errMsg, setErrMsg] = useState("");
 
   const resetGame = (e) => {
     setCurrentBoard(initialBoard);
@@ -71,7 +72,9 @@ function Game() {
         gameLoop(currentBoard.board);
       })
       .catch((err) => {
-        console.log("ERR: ", err);
+        if (err.code === "ERR_BAD_RESPONSE") {
+          setErrMsg("Something went wrong. Please try again!");
+        }
       });
   };
 
@@ -134,6 +137,7 @@ function Game() {
     <>
       {turn !== "Your turn" ? <Loading /> : null}
       {winner !== "" ? <h2 className="game_winner">{winner}</h2> : null}
+      {errMsg.length > 0 ? <p className="game_err">{errMsg}</p> : null}
       <h2>{turn}</h2>
       <div className="board">
         {currentBoard.board.map((row, rowI) => (
