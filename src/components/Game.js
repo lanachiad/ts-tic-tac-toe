@@ -28,6 +28,13 @@ function Game() {
 
   const resetGame = (e) => {
     setCurrentBoard(initialBoard);
+    setTurn("Your turn");
+    setWinner("");
+    setErrMsg("");
+    const allSquares = document.getElementsByClassName("game_square");
+    for (let i = 0; i < allSquares.length; i++) {
+      allSquares[i].removeAttribute("disabled");
+    }
   };
 
   const handleSquareClick = (e) => {
@@ -140,6 +147,12 @@ function Game() {
       {errMsg.length > 0 ? <p className="game_err">{errMsg}</p> : null}
       <h2>{turn}</h2>
       <div className="board">
+        {winner.length > 0 ? (
+          <>
+            <p className="game_err">{errMsg}</p>
+            <div className="game_over"></div>
+          </>
+        ) : null}
         {currentBoard.board.map((row, rowI) => (
           <div className="game_row" id={rowI} key={rowI}>
             {row.map((val, valI) => (
